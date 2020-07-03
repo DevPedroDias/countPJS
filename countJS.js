@@ -4,13 +4,13 @@ class CountJs {
         this.domElement = domElement; // element will be used to construct the count
         this.structuredObject = this.structureObj();
         this.time = time; // total time to render the count
-       this.mountHTMLAnimation(); // start mount and count
+        this.mountHTMLAnimation(); // start mount and count
     }
     structureObj = () => {
         let a_object = []
         this.element.forEach(collection => {
             let object = {}
-            object.aElement =[]
+            object.aElement = []
             object.arrayCollection = collection;
             Array.from(collection).forEach(item => {
                 object.classUsed = item.classList[0];
@@ -41,10 +41,28 @@ class CountJs {
      * function called to get splited numbers and symbols and start to get together separated in elements, after that will start count
      */
     mountHTMLAnimation = () => {
-        this.structuredObject.map(object=>{
-            console.log(object);
-        })
+        var total = 0, el = [];
+        this.structuredObject.map(object => {
+            for (let index in object.arrayCollection) {
+                console.log(parseInt(index))
+                el[index] = document.createElement(this.domElement);
+                for(let indexElements in object.aElement[index]){
+                    var inner = document.createElement(this.domElement)
+                    inner.setAttribute('id', 'count_' + index + indexElements)
+                    inner.append(indexElements > 0 && indexElements < object.aElement[index][indexElements].length - 1 ? '000' : '00');
+                    el[index].append(inner);
+                    var points = document.createElement(this.domElement);
+                    points.setAttribute('id', 'points_' + index + indexElements);
+                    if (indexElements != object.aElement[index].length - 1) {
+                        points.append(indexElements == object.aElement[index][indexElements].length - 2 ? ',' : '.');
+                        el[index].append(points);
+                    }
+                    total += parseInt(object.aElement[index][indexElements]);
+                }
+            }
 
+        })
+        console.log(el);
 
 
 
